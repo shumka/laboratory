@@ -1,5 +1,8 @@
 import java.util.*;
 public class level1 {
+    public static void main(String[] args) {
+        
+    }
     public static int squirrel(int N)
     {
         int factorial = 1;
