@@ -1,4 +1,4 @@
-public class level1 {
+public class Level1 {
     public static int squirrel(int N)
     {
         int factorial = 1;
