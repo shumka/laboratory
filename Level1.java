@@ -1,5 +1,5 @@
 public class Level1 {
-    int odometer(int [] oksana){
+    public static int odometer(int [] oksana){
         int N = oksana.length;
         int oldt = 0;
         int S = 0;
