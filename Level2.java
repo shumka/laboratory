@@ -1,4 +1,4 @@
-public class Level2 {
+public class Level1 {
     int odometer(int [] oksana){
         int N = oksana.length;
         int oldt = 0;
