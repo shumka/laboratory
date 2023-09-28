@@ -1,14 +1,20 @@
 public class Level1 {
-    public static int squirrel(int N)
-    {
-        int factorial = 1;
-        while (N > 1){
-            factorial *= N;
-            N -= 1;
+    int odometer(int [] oksana){
+        int N = oksana.length;
+        int oldt = 0;
+        int S = 0;
+        int vi= 0;
+        int ti = 0;
+        int dt = 0;
+        int ds = 0;
+        for (int i=0; i < N; i=i+2){
+            vi = oksana[i];
+            ti = oksana[i+1];
+            dt = ti - oldt;
+            oldt = ti;
+            ds = vi * dt;
+            S += ds;
         }
-        while(factorial > 9){
-            factorial /= 10;
-        }
-        return factorial;
+        return S;
     }
 }
