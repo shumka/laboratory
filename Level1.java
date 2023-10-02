@@ -2,10 +2,12 @@ import java.util.*;
 
 public class Level1 {
     public static int [] SynchronizingTables(int N, int [] ids, int [] salary){
-        int[] bufferSalary = new int [salary.length];
+        int[] bufferSalary = new int [N];
+        int[] bufferID = new int [N];
         int[] result = new int [N];
         HashMap<Integer, Integer> associativeArray = new HashMap<>(N);
-        System.arraycopy(salary, 0, bufferSalary, 0, salary.length);
+        System.arraycopy(salary, 0, bufferSalary, 0, N);
+        System.arraycopy(ids, 0, bufferID, 0, N);
 
         for(int i = 0; i<N-1; i++) {
             for (int j = i+1; j<bufferSalary.length; j++) {
@@ -17,17 +19,22 @@ public class Level1 {
             }
         }
 
-        for(int i=0; i<N; i++){
-            associativeArray.put(ids[i], bufferSalary[i]);
+        for(int i = 0; i<N-1; i++) {
+            for (int j = i+1; j<bufferID.length; j++) {
+                if(bufferID[i] > bufferID[j]) {
+                    int temp = bufferID[i];
+                    bufferID[i] = bufferID[j];
+                    bufferID[j] = temp;
+                }
+            }
         }
 
-        List<Integer> sortedKeys = new ArrayList<>(associativeArray.keySet());
-        Collections.sort(sortedKeys);
+        for(int i=0; i<N; i++){
+            associativeArray.put(bufferID[i], bufferSalary[i]);
+        }
 
-        for (int i = 0; i < sortedKeys.size(); i++) {
-            int key = sortedKeys.get(i);
-            int value = associativeArray.get(key);
-            result[i] = value;
+        for (int i = 0; i < N; i++) {
+            result[i] = associativeArray.get(ids[i]);
         }
 
         return result;
