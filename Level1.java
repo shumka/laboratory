@@ -1,52 +1,35 @@
+import java.util.*;
+
 public class Level1 {
-    public static int [] MadMax(int N, int [] Tele){
-        int[] first = new int[N/2];
-        int[] second = new int[N-(N/2)];
-        int[] result = new int[N];
-        int x = 0;
-        int y = 0;
+    public static int [] SynchronizingTables(int N, int [] ids, int [] salary){
+        int[] bufferSalary = new int [salary.length];
+        int[] result = new int [N];
+        HashMap<Integer, Integer> associativeArray = new HashMap<>(N);
+        System.arraycopy(salary, 0, bufferSalary, 0, salary.length);
 
         for(int i = 0; i<N-1; i++) {
-            for (int j = i+1; j<Tele.length; j++) {
-                if(Tele[i] > Tele[j]) {
-                    int temp = Tele[i];
-                    Tele[i] = Tele[j];
-                    Tele[j] = temp;
+            for (int j = i+1; j<bufferSalary.length; j++) {
+                if(bufferSalary[i] > bufferSalary[j]) {
+                    int temp = bufferSalary[i];
+                    bufferSalary[i] = bufferSalary[j];
+                    bufferSalary[j] = temp;
                 }
             }
         }
 
-        for (int i = 0; i < N; i++)
-        {
-            if (i < N / 2) {
-                first[x]= Tele[i];
-                x++;
-            }
-            else {
-                second[y] = Tele[i];
-                y++;
-            }
+        for(int i=0; i<N; i++){
+            associativeArray.put(ids[i], bufferSalary[i]);
         }
 
-        for(int i = 0; i < second.length-1; i++) {
-            for (int j = i+1; j < second.length; j++) {
-                if(second[i] < second[j]) {
-                    int temp = second[i];
-                    second[i] = second[j];
-                    second[j] = temp;
-                }
-            }
+        List<Integer> sortedKeys = new ArrayList<>(associativeArray.keySet());
+        Collections.sort(sortedKeys);
+
+        for (int i = 0; i < sortedKeys.size(); i++) {
+            int key = sortedKeys.get(i);
+            int value = associativeArray.get(key);
+            result[i] = value;
         }
-        x = 0;
-        for(int i = 0; i < N; i++){
-            if (i < N / 2) {
-                result[i] = first[i];
-            }
-            else {
-                result[i] = second[x];
-                x++;
-            }
-        }
+
         return result;
     }
 }
