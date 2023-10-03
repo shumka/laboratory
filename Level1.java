@@ -1,41 +1,145 @@
-import java.util.*;
+import static java.lang.Math.sqrt;
 
 public class Level1 {
-    public static int [] SynchronizingTables(int N, int [] ids, int [] salary){
-        int[] bufferSalary = new int [N];
-        int[] bufferID = new int [N];
-        int[] result = new int [N];
-        HashMap<Integer, Integer> associativeArray = new HashMap<>(N);
-        System.arraycopy(salary, 0, bufferSalary, 0, N);
-        System.arraycopy(ids, 0, bufferID, 0, N);
+    public static String PatternUnlock(int N, int[] hits) {
+        String result = "";
+        double distance = 0;
+        for (int i = 0; i < N - 1; i++) {
 
-        for(int i = 0; i<N-1; i++) {
-            for (int j = i+1; j<bufferSalary.length; j++) {
-                if(bufferSalary[i] > bufferSalary[j]) {
-                    int temp = bufferSalary[i];
-                    bufferSalary[i] = bufferSalary[j];
-                    bufferSalary[j] = temp;
+            if (hits[i] == 1) {
+                switch (hits[i + 1]) {
+                    case 2:
+                    case 6:
+                    case 9:
+                        distance += 1;
+                        break;
+                    case 5:
+                    case 8:
+                        distance += sqrt(2);
+                        break;
+                    default:
+                        break;
                 }
-            }
-        }
-
-        for(int i = 0; i<N-1; i++) {
-            for (int j = i+1; j<bufferID.length; j++) {
-                if(bufferID[i] > bufferID[j]) {
-                    int temp = bufferID[i];
-                    bufferID[i] = bufferID[j];
-                    bufferID[j] = temp;
+            } else if (hits[i] == 2) {
+                switch (hits[i + 1]) {
+                    case 1:
+                    case 3:
+                    case 5:
+                    case 8:
+                        distance += 1;
+                        break;
+                    case 4:
+                    case 6:
+                    case 7:
+                    case 9:
+                        distance += sqrt(2);
+                        break;
+                    default:
+                        break;
                 }
+            } else if (hits[i] == 3) {
+                switch (hits[i + 1]) {
+                    case 2:
+                    case 4:
+                    case 7:
+                        distance += 1;
+                        break;
+                    case 5:
+                    case 8:
+                        distance += sqrt(2);
+                        break;
+                    default:
+                        break;
+                }
+
+            } else if (hits[i] == 4) {
+                switch (hits[i + 1]) {
+                    case 3:
+                    case 5:
+                        distance += 1;
+                        break;
+                    case 2:
+                        distance += sqrt(2);
+                        break;
+                    default:
+                        break;
+                }
+
+            } else if (hits[i] == 5) {
+                switch (hits[i + 1]) {
+                    case 2:
+                    case 4:
+                    case 6:
+                        distance += 1;
+                        break;
+                    case 1:
+                    case 3:
+                        distance += sqrt(2);
+                        break;
+                    default:
+                        break;
+                }
+
+            } else if (hits[i] == 6) {
+                switch (hits[i + 1]) {
+                    case 1:
+                    case 5:
+                        distance += 1;
+                        break;
+                    case 2:
+                        distance += sqrt(2);
+                        break;
+                    default:
+                        break;
+                }
+
+            } else if (hits[i] == 7) {
+                switch (hits[i + 1]) {
+                    case 3:
+                    case 8:
+                        distance += 1;
+                        break;
+                    case 2:
+                        distance += sqrt(2);
+                        break;
+                    default:
+                        break;
+                }
+
+            } else if (hits[i] == 8) {
+                switch (hits[i + 1]) {
+                    case 2:
+                    case 7:
+                    case 9:
+                        distance += 1;
+                        break;
+                    case 1:
+                    case 3:
+                        distance += sqrt(2);
+                        break;
+                    default:
+                        break;
+                }
+
+            } else if (hits[i] == 9) {
+                switch (hits[i + 1]) {
+                    case 1:
+                    case 8:
+                        distance += 1;
+                        break;
+                    case 2:
+                        distance += sqrt(2);
+                        break;
+                    default:
+                        break;
+                }
+
             }
-        }
 
-        for(int i=0; i<N; i++){
-            associativeArray.put(bufferID[i], bufferSalary[i]);
         }
-
-        for (int i = 0; i < N; i++) {
-            result[i] = associativeArray.get(ids[i]);
-        }
+        result = String.format("%.5f", distance);
+        result = result.replaceAll("0", "");
+        result = result.replaceAll(",", "");
 
         return result;
     }
