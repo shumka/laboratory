@@ -3,8 +3,10 @@ import java.util.List;
 
 public class Level1 {
     public static int[] WordSearch(int len, String s, String subs) {
+
         String[] lines = splitString(s, len);
-        
+
+
         int[] result = new int[lines.length];
         for (int i = 0; i < lines.length; i++) {
             result[i] = containsWord(lines[i], subs) ? 1 : 0;
@@ -34,6 +36,8 @@ public class Level1 {
         return lines.toArray(new String[0]);
     }
 
-    private static boolean containsWord(String line, String word) a
+    private static boolean containsWord(String line, String word) {
+        return line.matches(".*\\b" + word + "\\b.*");
+    }
 
 }
