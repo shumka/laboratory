@@ -1,20 +1,17 @@
 public class Level1 {
     public static int SumOfThe(int N, int[] data) {
-        int totalSum = 0;
-
-        for (int i = 0; i < N; i++) {
-            totalSum += data[i];
-        }
-
-        int currentSum = 0;
-        for (int i = 0; i < N; i++) {
-            currentSum += data[i];
-            if (currentSum == totalSum) {
-                return data[i];
+        for (int i = 0; i < data.length; i++) {
+            int currentNumber = data[i];
+            int sum = 0;
+            for (int j = 0; j < data.length; j++) {
+                if (i != j) {
+                    sum += data[j];
+                }
             }
-            totalSum -= data[i];
+            if (currentNumber == sum) {
+                return currentNumber;
+            }
         }
-
         return -1;
     }
 
