@@ -1,33 +1,39 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Level1 {
-    public static int [] WordSearch(int len, String s, String subs){
-        s = s.toLowerCase();
-        subs = subs.toLowerCase();
-        String[] subStrDirty;
-        ArrayList<String> subStrClean = new ArrayList<String>();
-        subStrDirty = s.split(" ");
-        for(int i = 0; i < subStrDirty.length-1; i++){
-            if( (subStrDirty[i].length() + subStrDirty[i+1].length()) <= len ){
-                subStrClean.add(subStrDirty[i] + " " + subStrDirty[i+1]);
-                if(i == subStrDirty.length - 3){
-                    subStrClean.add(subStrDirty[i+2]);
-                } else {
-                    i++;
-                }
-            } else {
-                subStrClean.add(subStrDirty[i]);
-            }
+    public static int[] WordSearch(int len, String s, String subs) {
+        String[] lines = splitString(s, len);
+        
+        int[] result = new int[lines.length];
+        for (int i = 0; i < lines.length; i++) {
+            result[i] = containsWord(lines[i], subs) ? 1 : 0;
         }
-        int[] result = new int[subStrClean.size()-1];
-        for(int i = 0; i < subStrClean.size()-1; i++){
-            if(subStrClean.get(i).matches(".*\\b" + subs + "\\b.*")){
-                result[i] = 1;
-            } else {
-                result[i] = 0;
-            }
-        }
+
         return result;
     }
+
+    private static String[] splitString(String s, int len) {
+        List<String> lines = new ArrayList<>();
+        String[] words = s.split(" ");
+        StringBuilder line = new StringBuilder();
+
+        for (String word : words) {
+            if (line.length() + word.length() <= len) {
+                line.append(word).append(" ");
+            } else {
+                lines.add(line.toString().trim());
+                line = new StringBuilder(word + " ");
+            }
+        }
+
+        if (line.length() > 0) {
+            lines.add(line.toString().trim());
+        }
+
+        return lines.toArray(new String[0]);
+    }
+
+    private static boolean containsWord(String line, String word) a
 
 }
