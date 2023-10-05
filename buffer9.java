@@ -1,14 +1,11 @@
-import java.util.Arrays;
-
 import static java.lang.Math.sqrt;
 
-public static class Level1 {
+public class Level1 {
     public static String TheRabbitsFoot(String s, Boolean encode) {
         String[] decodeParts = new String[0];
         if (!encode) {
             decodeParts = s.split(" ");
         }
-        System.out.println(Arrays.toString(decodeParts));
         String text = s.replaceAll(" ", "");
         int N = text.length();
         int y = (int) Math.ceil(sqrt(N));
