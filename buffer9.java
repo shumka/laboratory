@@ -1,5 +1,3 @@
-import static java.lang.Math.sqrt;
-
 public class Level1 {
     public static String TheRabbitsFoot(String s, Boolean encode) {
         String[] decodeParts = new String[0];
@@ -8,7 +6,7 @@ public class Level1 {
         }
         String text = s.replaceAll(" ", "");
         int N = text.length();
-        int y = (int) Math.ceil(sqrt(N));
+        int y = (int) Math.ceil(Math.sqrt(N));
         int x = N / y;
         while (x * y < N) {
             x++;
