@@ -1,5 +1,5 @@
 public class Level1 {
-   public String MassVote(int N, int[] Votes) {
+   public static String MassVote(int N, int[] Votes) {
         int totalVotes = 0;
         int maxVotes = 0;
         int winnerIndex = -1;
