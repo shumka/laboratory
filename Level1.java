@@ -49,7 +49,7 @@ public class Level1 {
 
         }
 
-        return return removeLeadingZeroes(result.toString());
+        return removeLeadingZeroes(result.toString());
     }
 
     public static String removeLeadingZeroes(String s) {
