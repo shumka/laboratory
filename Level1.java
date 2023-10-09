@@ -1,26 +1,73 @@
+public static class Level1 {
+    public static String BigMinus(String s1, String s2) {
+        s1 = removeLeadingZeroes(s1);
+        s2 = removeLeadingZeroes(s2);
 
-public class Level1 {
-    public static int PrintingCosts(String Line) {
-        int totalCost = 0;
-        String costs = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
-        int[] charCosts = {0, 9, 6, 24, 29, 22, 24, 3, 12, 12, 17, 13, 7, 7, 4, 10, 22, 19, 22, 23, 21, 27, 26, 16, 23, 26,
-                8, 11, 10, 14, 10, 15, 32, 24, 29, 20, 26, 26, 20, 25, 25, 18, 18, 21, 16, 28, 25, 26, 23, 31, 28,
-                25, 16, 23, 19, 26, 18, 14, 22, 18, 10, 18, 7, 8, 3, 23, 25, 17, 25, 23, 18, 30, 21, 15, 20, 21,
-                16, 22, 18, 20, 25, 25, 13, 21, 17, 17, 13, 19, 13, 24, 19, 18, 12, 18, 9};
+        if (s1.isEmpty()) {
+            return s2;
+        } else if (s2.isEmpty()) {
+            return s1;
+        }
 
+        if (s1.length() < s2.length()) {
+            String temp = s1;
+            s1 = s2;
+            s2 = temp;
+        }
 
-        for (int i = 0; i < Line.length(); i++) {
-            char c = Line.charAt(i);
-            int index = costs.indexOf(c);
-            if (index != -1) {
-                totalCost += charCosts[index];
-            } else {
-                totalCost += 23;
+        if (s1.length() == s2.length()){
+            for (int i = 0; i < s1.length(); i++){
+                if(Character.getNumericValue(s2.charAt(i)) > Character.getNumericValue(s1.charAt(i))){
+                    String temp = s1;
+                    s1 = s2;
+                    s2 = temp;
+                    break;
+                }
             }
         }
 
-        return totalCost;
-    }
-}
+        int maxLength = Math.max(s1.length(), s2.length());
+        s1 = padZeros(s1, maxLength);
+        s2 = padZeros(s2, maxLength);
 
- 
+        StringBuilder result = new StringBuilder();
+        int carry = 0;
+
+        for (int i = maxLength - 1; i >= 0; i--) {
+            int digit1 = Character.getNumericValue(s1.charAt(i));
+            int digit2 = Character.getNumericValue(s2.charAt(i));
+            int diff;
+            if (digit1 >= digit2) {
+                diff = digit1 - digit2 - carry;
+                carry = 0;
+            } else {
+                diff = 10 + digit1 - digit2 - carry;
+                carry = 1;
+            }
+
+            result.insert(0, diff);
+
+        }
+
+        String result_final = removeLeadingZeroes(result.toString());
+        return result.toString();
+    }
+
+    public static String removeLeadingZeroes(String s) {
+        StringBuilder sb = new StringBuilder(s);
+        while (sb.length() > 1 && sb.charAt(0) == '0') {
+            sb.deleteCharAt(0);
+        }
+        return sb.toString();
+    }
+
+    public static String padZeros(String number, int length) {
+        StringBuilder paddedNumber = new StringBuilder(number);
+        while (paddedNumber.length() < length) {
+            paddedNumber.insert(0, '0');
+        }
+        return paddedNumber.toString();
+    }
+
+
+}
