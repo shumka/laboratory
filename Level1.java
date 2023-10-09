@@ -1,4 +1,4 @@
-public static class Level1 {
+public class Level1 {
     public static String BigMinus(String s1, String s2) {
         s1 = removeLeadingZeroes(s1);
         s2 = removeLeadingZeroes(s2);
