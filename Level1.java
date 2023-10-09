@@ -1,45 +1,26 @@
 public class Level1 {
-    public static int[] UFO(int N, int[] data, Boolean octal) {
-        int[] result = new int[N];
-        if (octal) {
-            for (int i = 0; i < N; i++) {
-                result[i] = OctalToDecimal(data[i]);
-            }
-        } else {
-            for (int i = 0; i < N; i++) {
-                result[i] = HexToDecimal(data[i]);
-            }
-        }
-        return result;
-    }
+    public static int Unmanned(int L, int N, int[][] track) {
+        int time = 0;
+        int position = 0;
 
-    public static int OctalToDecimal(int octal) {
-        int decimal = 0;
-        int n = 0;
-        while (true) {
-            if (octal == 0) {
-                break;
-            } else {
-                int temp = octal % 10;
-                decimal += temp * Math.pow(8, n);
-                octal = octal / 10;
-                n++;
+        for (int i = 0; i < N; i++) {
+            int arrivalTime = track[i][0];
+            int redTime = track[i][1];
+            int greenTime = track[i][2];
+
+            int distance = arrivalTime - position;
+
+            time += distance;
+
+            if (time % (redTime + greenTime) < redTime) {
+                time += redTime - (time % (redTime + greenTime));
             }
-        }
-        return decimal;
-    }
 
-    public static int HexToDecimal(int hex) {
-        int decimal = 0;
-        int power = 0;
-
-        while (hex > 0) {
-            int digit = hex % 10;
-            decimal += digit * Math.pow(16, power);
-            hex /= 10;
-            power++;
+            position = arrivalTime;
         }
 
-        return decimal;
+        time += L - position;
+
+        return Math.round(time);
     }
 }
