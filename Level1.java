@@ -8,6 +8,10 @@ public class Level1 {
             int redTime = track[i][1];
             int greenTime = track[i][2];
 
+            if (arrivalTime > L) {
+                break;
+            }
+
             int distance = arrivalTime - position;
 
             time += distance;
