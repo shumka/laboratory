@@ -1,30 +1,41 @@
 public class Level1 {
-    public static int Unmanned(int L, int N, int[][] track) {
-        int time = 0;
-        int position = 0;
+    public static boolean TankRush(int H1, int W1, String S1, int H2, int W2, String S2) {
+        char[][] map1 = convertToMatrix(H1, W1, S1);
+        char[][] map2 = convertToMatrix(H2, W2, S2);
 
-        for (int i = 0; i < N; i++) {
-            int arrivalTime = track[i][0];
-            int redTime = track[i][1];
-            int greenTime = track[i][2];
+        for (int i = 0; i <= H1 - H2; i++) {
+            for (int j = 0; j <= W1 - W2; j++) {
+                boolean match = true;
 
-            if (arrivalTime > L) {
-                break;
+                for (int k = 0; k < H2; k++) {
+                    for (int l = 0; l < W2; l++) {
+                        if (map1[i + k][j + l] != map2[k][l]) {
+                            match = false;
+                            break;
+                        }
+                    }
+                    if (!match) {
+                        break;
+                    }
+                }
+
+                if (match) {
+                    return true;
+                }
             }
-
-            int distance = arrivalTime - position;
-
-            time += distance;
-
-            if (time % (redTime + greenTime) < redTime) {
-                time += redTime - (time % (redTime + greenTime));
-            }
-
-            position = arrivalTime;
         }
 
-        time += L - position;
+        return false;
+    }
 
-        return Math.round(time);
+    private static char[][] convertToMatrix(int rows, int cols, String str) {
+        char[][] matrix = new char[rows][cols];
+        String[] rowsArray = str.split(" ");
+
+        for (int i = 0; i < rows; i++) {
+            matrix[i] = rowsArray[i].toCharArray();
+        }
+
+        return matrix;
     }
 }
