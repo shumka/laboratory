@@ -1,14 +1,25 @@
-import java.util.Arrays;
-
 public class Level1 {
-    public static int MaximumDiscount(int N, int[] price) {
-        Arrays.sort(price);
-        int discount = 0;
+    public static boolean LineAnalysis(String line) {
+        int n = line.length();
 
-        for (int i = N - 3; i >= 0; i -= 3) {
-            discount += price[i];
+        if (n == 1 && line.charAt(0) == '*') {
+            return true;
         }
 
-        return discount;
+        if (!line.startsWith("*") || !line.endsWith("*")) {
+            return false;
+        }
+
+        String[] patterns = line.split("\\*");
+        int patternLength = patterns[1].length();
+
+        for (int i = 1; i < patterns.length - 1; i++) {
+            if (patterns[i].length() != patternLength) {
+                return false;
+            }
+        }
+
+        return true;
+
     }
 }
