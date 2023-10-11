@@ -1,19 +1,19 @@
 import java.util.*;
 
 public class Level1 {
-public static boolean LineAnalysis(String line) {
+    public static boolean LineAnalysis(String line) {
         int n = line.length();
 
         if (n == 1 && line.charAt(0) == '*') {
-        return true;
+            return true;
         }
 
         if (line.charAt(0) == '*' && line.charAt(1) == '*') {
-        return true;
+            return true;
         }
 
         if (!line.startsWith("*") || !line.endsWith("*")) {
-        return false;
+            return false;
         }
 
         List<String> listDot = new ArrayList<>(Arrays.asList(line.split("\\*")));
@@ -27,17 +27,17 @@ public static boolean LineAnalysis(String line) {
         int patternStarsLength = patternsStars[0].length();
 
         for (String patternsStar : patternsStars) {
-        if (patternsStar.length() != patternStarsLength) {
-        return false;
-        }
+            if (patternsStar.length() != patternStarsLength) {
+                return false;
+            }
         }
         for (String s : patternsDot) {
-        if (s.length() != patternDotLength) {
-        return false;
-        }
+            if (s.length() != patternDotLength) {
+                return false;
+            }
         }
 
         return true;
 
-        }
+    }
 }
