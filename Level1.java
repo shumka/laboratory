@@ -5,7 +5,11 @@ public class Level1 {
         if (n == 1 && line.charAt(0) == '*') {
             return true;
         }
-
+        
+        if (line.charAt(0) == '*' && line.charAt(1) == '*') {
+            return true;
+        }
+        
         if (!line.startsWith("*") || !line.endsWith("*")) {
             return false;
         }
