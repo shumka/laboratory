@@ -1,43 +1,32 @@
-import java.util.*;
-
 public class Level1 {
-    public static boolean LineAnalysis(String line) {
-        int n = line.length();
+    public static boolean MisterRobot(int N, int[] data) {
+        int limit = N * N;
+        int count = 0;
 
-        if (n == 1 && line.charAt(0) == '*') {
-            return true;
-        }
+        while (count < limit) {
+            boolean sorted = true;
 
-        if (line.charAt(0) == '*' && line.charAt(1) == '*') {
-            return true;
-        }
-
-        if (!line.startsWith("*") || !line.endsWith("*")) {
-            return false;
-        }
-
-        List<String> listDot = new ArrayList<>(Arrays.asList(line.split("\\*")));
-        List<String> listStars = new ArrayList<>(Arrays.asList(line.split("\\.")));
-        listDot.removeIf(String::isEmpty);
-        listStars.removeIf(String::isEmpty);
-        String[] patternsDot = listDot.toArray(new String[0]);
-        String[] patternsStars = listStars.toArray(new String[0]);
-
-        int patternDotLength = patternsDot[0].length();
-        int patternStarsLength = patternsStars[0].length();
-
-        for (String patternsStar : patternsStars) {
-            if (patternsStar.length() != patternStarsLength) {
-                return false;
+            for (int i = 0; i < N - 2; i++) {
+                if (data[i] > data[i + 1] || data[i + 1] > data[i + 2]) {
+                    for (int x = 0; x < 3; x++) {
+                        int temp = data[i];
+                        data[i] = data[i + 1];
+                        data[i + 1] = data[i + 2];
+                        data[i + 2] = temp;
+                        if (data[i] < data[i + 1] && data[i + 1] < data[i + 2]) {
+                            break;
+                        }
+                    }
+                    sorted = false;
+                }
             }
-        }
-        for (String s : patternsDot) {
-            if (s.length() != patternDotLength) {
-                return false;
+            if (sorted) {
+                return true;
             }
+            count++;
         }
 
-        return true;
+        return false;
 
     }
 }
