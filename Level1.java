@@ -1,32 +1,28 @@
+import java.util.*;
+
 public class Level1 {
-    public static boolean MisterRobot(int N, int[] data) {
-        int limit = N * N;
-        int count = 0;
+    public static String [] ShopOLAP(int N, String [] items) {
+        HashMap<String, Integer> salesArray = new HashMap<>(N);
 
-        while (count < limit) {
-            boolean sorted = true;
+        for (String item : items) {
+            String[] parts = item.split(" ");
+            String name = parts[0];
+            int quantity = Integer.parseInt(parts[1]);
 
-            for (int i = 0; i < N - 2; i++) {
-                if (data[i] > data[i + 1] || data[i + 1] > data[i + 2]) {
-                    for (int x = 0; x < 3; x++) {
-                        int temp = data[i];
-                        data[i] = data[i + 1];
-                        data[i + 1] = data[i + 2];
-                        data[i + 2] = temp;
-                        if (data[i] < data[i + 1] && data[i + 1] < data[i + 2]) {
-                            break;
-                        }
-                    }
-                    sorted = false;
-                }
+            if (salesArray.containsKey(name)) {
+                int currentQuantity = salesArray.get(name);
+                salesArray.put(name, currentQuantity + quantity);
+            } else {
+                salesArray.put(name, quantity);
             }
-            if (sorted) {
-                return true;
-            }
-            count++;
+
         }
+        List<String> result = new ArrayList<>();
+        salesArray.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .forEach(entry -> result.add(entry.getKey() + " " + entry.getValue()));
 
-        return false;
+        return result.toArray(new String[0]);
 
     }
 }
