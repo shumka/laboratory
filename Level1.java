@@ -19,7 +19,8 @@ public class Level1 {
         }
         List<String> result = new ArrayList<>();
         salesArray.entrySet().stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .sorted(Comparator.comparing(Map.Entry<String, Integer>::getValue).reversed()
+                        .thenComparing(Map.Entry::getKey))
                 .forEach(entry -> result.add(entry.getKey() + " " + entry.getValue()));
 
         return result.toArray(new String[0]);
