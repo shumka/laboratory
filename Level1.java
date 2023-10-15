@@ -2,31 +2,31 @@ import java.util.*;
 
 public class Level1 {
     public static StringBuilder text;
-    public static ArrayDeque<String> undoStack;
+    public static Stack<String> undoStack;
     public static Stack<String> redoStack;
+    public static int lastCommand;
 
     static{
         text = new StringBuilder();
-        undoStack = new ArrayDeque<>();
+        undoStack = new Stack<>();
         redoStack = new Stack<>();
+        lastCommand = 0;
     }
     public static String BastShoe(String command) {
 
         if (command.charAt(0) == '1') {
             String addParameter = command.substring(1).trim();
-            add(addParameter);
+            add(addParameter, lastCommand == 4);
         }
 
         if (command.charAt(0) == '2') {
             String[] parts = command.split(" ");
-            String parameter = parts[1];
-            remove(parameter);
+            remove(parts[1], lastCommand == 4);
         }
 
         if (command.charAt(0) == '3') {
             String[] parts = command.split(" ");
-            String parameter = parts[1];
-            return getCharacter(parameter);
+            return getCharacter(parts[1]);
         }
 
         if (command.charAt(0) == '4') {
@@ -40,66 +40,130 @@ public class Level1 {
         return text.toString();
     }
 
-    private static void add(String string) {
-        if(undoStack.size() == 2){
-            undoStack.pollFirst();
-            undoStack.addLast(text.toString());
-        } else {
-            undoStack.addLast(text.toString());
+    private static void add(String string, Boolean cleanChain) {
+        lastCommand = 1;
+
+        if(cleanChain){
+            undoStack.clear();
+            undoStack.push(text.toString());
+            text.append(string);
+            redoStack.clear();
         }
 
-        text.append(string);
-        redoStack.clear();
+        if(!cleanChain) {
+            undoStack.push(text.toString());
+            text.append(string);
+            redoStack.clear();
+        }
     }
 
-    private static void remove(String count) {
+    private static void remove(String count, Boolean cleanChain) {
         int numToRemove = Integer.parseInt(count);
-        if (numToRemove >= text.length()) {
-            if(undoStack.size() == 2){
-                undoStack.pollFirst();
-                undoStack.addLast(text.toString());
+        lastCommand = 2;
+        if(cleanChain){
+            if (numToRemove >= text.length()) {
+                undoStack.clear();
+                undoStack.push(text.toString());
+                text.setLength(0);
+                redoStack.clear();
             } else {
-                undoStack.addLast(text.toString());
+                undoStack.clear();
+                undoStack.push(text.toString());
+                text.setLength(text.length() - numToRemove);
+                redoStack.clear();
             }
-            text.setLength(0);
-            redoStack.clear();
-        } else {
-            if(undoStack.size() == 2){
-                undoStack.pollFirst();
-                undoStack.addLast(text.toString());
+        }
+        if(!cleanChain){
+            if (numToRemove >= text.length()) {
+                undoStack.push(text.toString());
+                text.setLength(0);
+                redoStack.clear();
             } else {
-                undoStack.addLast(text.toString());
+                undoStack.push(text.toString());
+                text.setLength(text.length() - numToRemove);
+                redoStack.clear();
             }
-            text.setLength(text.length() - numToRemove);
-            redoStack.clear();
         }
     }
 
     public static String getCharacter(String index) {
+        lastCommand = 3;
         int idx = Integer.parseInt(index);
-
         if (idx < text.length()) {
+            undoStack.push(String.valueOf(text.charAt(idx)));
             return String.valueOf(text.charAt(idx));
         }
-
         return "";
     }
 
     public static void undo() {
+        lastCommand = 4;
         if (undoStack.size() == 1){
             redoStack.push(text.toString());
             text = new StringBuilder(undoStack.peek());
         } else {
             redoStack.push(text.toString());
-            text = new StringBuilder(undoStack.pollLast());
+            text = new StringBuilder(undoStack.pop());
         }
     }
 
     public static void redo() {
-        if (!redoStack.isEmpty()) {
-            undoStack.addLast(text.toString());
+        lastCommand = 5;
+        if (redoStack.size() == 1){
+            undoStack.push(text.toString());
+            text = new StringBuilder(redoStack.peek());
+        } else {
+            undoStack.push(text.toString());
             text = new StringBuilder(redoStack.pop());
         }
     }
+   //Неверная работа Undo после Undo + Добавить()
+    public static void main(String[] args) {
+        System.out.println(BastShoe("1 Привет"));
+       // System.out.println(Level1.lastCommand);
+        System.out.println(BastShoe("1  , Мир!"));
+        //System.out.println(Level1.lastCommand);
+        System.out.println(BastShoe("1 ++ "));
+        //System.out.println(Level1.lastCommand);
+        System.out.println(BastShoe("2 2"));
+        //System.out.println(Level1.lastCommand);
+        System.out.println(BastShoe("4"));
+        //System.out.println(Level1.lastCommand);
+        System.out.println(BastShoe("4"));
+        System.out.println(BastShoe("1 *"));
+        System.out.println(BastShoe("4"));
+        System.out.println(BastShoe("4"));
+        System.out.println(BastShoe("4"));
+        System.out.println(BastShoe("3 6"));
+        System.out.println(BastShoe("2 100"));
+
+        System.out.println(BastShoe("1 Привет"));
+        System.out.println(BastShoe("1 , Мир!"));
+        System.out.println(BastShoe("1 ++"));
+        System.out.println(BastShoe("4"));
+        System.out.println(BastShoe("4"));
+        System.out.println(Level1.undoStack);
+        System.out.println(BastShoe("5"));
+        System.out.println(BastShoe("4"));
+        System.out.println("-------------------------------Отбивка----------------------");
+        System.out.println(BastShoe("5"));
+        System.out.println(BastShoe("5"));
+        System.out.println(BastShoe("5"));
+        System.out.println(BastShoe("5"));
+        System.out.println(Level1.undoStack);
+        System.out.println(BastShoe("4"));
+        System.out.println(BastShoe("4"));
+        System.out.println("-------------------------------Отбивка----------------------");
+        System.out.println(BastShoe("2 2"));
+        System.out.println(BastShoe("4"));
+        System.out.println(BastShoe("5"));
+        System.out.println(BastShoe("5"));
+        System.out.println(BastShoe("5"));
+
+
+
+
+    }
+
 
 }
