@@ -2,15 +2,14 @@ import java.util.*;
 
 public class Level1 {
     public static StringBuilder text;
-    public static Deque<String> undoStack;
+    public static ArrayDeque<String> undoStack;
     public static Stack<String> redoStack;
-    public Level1() {
+
+    static{
         text = new StringBuilder();
         undoStack = new ArrayDeque<>();
         redoStack = new Stack<>();
     }
-
-
     public static String BastShoe(String command) {
 
         if (command.charAt(0) == '1') {
@@ -41,19 +40,19 @@ public class Level1 {
         return text.toString();
     }
 
-    public static void add(String string) {
+    private static void add(String string) {
         if(undoStack.size() == 2){
             undoStack.pollFirst();
             undoStack.addLast(text.toString());
         } else {
             undoStack.addLast(text.toString());
         }
+
         text.append(string);
         redoStack.clear();
-
     }
 
-    public static void remove(String count) {
+    private static void remove(String count) {
         int numToRemove = Integer.parseInt(count);
         if (numToRemove >= text.length()) {
             if(undoStack.size() == 2){
@@ -78,9 +77,11 @@ public class Level1 {
 
     public static String getCharacter(String index) {
         int idx = Integer.parseInt(index);
+
         if (idx < text.length()) {
             return String.valueOf(text.charAt(idx));
         }
+
         return "";
     }
 
@@ -88,8 +89,7 @@ public class Level1 {
         if (undoStack.size() == 1){
             redoStack.push(text.toString());
             text = new StringBuilder(undoStack.peek());
-        }
-        else{
+        } else {
             redoStack.push(text.toString());
             text = new StringBuilder(undoStack.pollLast());
         }
@@ -101,4 +101,5 @@ public class Level1 {
             text = new StringBuilder(redoStack.pop());
         }
     }
+
 }
