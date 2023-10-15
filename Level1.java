@@ -1,11 +1,9 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Stack;
+import java.util.*;
 
 public class Level1 {
-    private StringBuilder text;
-    private Deque<String> undoStack;
-    private Stack<String> redoStack;
+    public static StringBuilder text;
+    public static Deque<String> undoStack;
+    public static Stack<String> redoStack;
     public Level1() {
         text = new StringBuilder();
         undoStack = new ArrayDeque<>();
@@ -13,7 +11,7 @@ public class Level1 {
     }
 
 
-    public String BastShoe(String command) {
+    public static String BastShoe(String command) {
 
         if (command.charAt(0) == '1') {
             String addParameter = command.substring(1).trim();
@@ -43,7 +41,7 @@ public class Level1 {
         return text.toString();
     }
 
-    private void add(String string) {
+    public static void add(String string) {
         if(undoStack.size() == 2){
             undoStack.pollFirst();
             undoStack.addLast(text.toString());
@@ -55,7 +53,7 @@ public class Level1 {
 
     }
 
-    private void remove(String count) {
+    public static void remove(String count) {
         int numToRemove = Integer.parseInt(count);
         if (numToRemove >= text.length()) {
             if(undoStack.size() == 2){
@@ -78,7 +76,7 @@ public class Level1 {
         }
     }
 
-    private String getCharacter(String index) {
+    public static String getCharacter(String index) {
         int idx = Integer.parseInt(index);
         if (idx < text.length()) {
             return String.valueOf(text.charAt(idx));
@@ -86,7 +84,7 @@ public class Level1 {
         return "";
     }
 
-    private void undo() {
+    public static void undo() {
         if (undoStack.size() == 1){
             redoStack.push(text.toString());
             text = new StringBuilder(undoStack.peek());
@@ -97,7 +95,7 @@ public class Level1 {
         }
     }
 
-    private void redo() {
+    public static void redo() {
         if (!redoStack.isEmpty()) {
             undoStack.addLast(text.toString());
             text = new StringBuilder(redoStack.pop());
