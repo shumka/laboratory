@@ -112,9 +112,15 @@ public class Level1 {
         if (redoStack.size() == 1){
             undoStack.push(text.toString());
             text = new StringBuilder(redoStack.peek());
+            if(Objects.equals(redoStack.peek(), undoStack.peek())){
+                undoStack.pop();
+            }
         } else {
             undoStack.push(text.toString());
             text = new StringBuilder(redoStack.pop());
+            if(Objects.equals(redoStack.peek(), undoStack.peek())){
+                undoStack.pop();
+            }
         }
     }
    //Неверная работа Undo после Undo + Добавить()
@@ -142,18 +148,19 @@ public class Level1 {
         System.out.println(BastShoe("1 ++"));
         System.out.println(BastShoe("4"));
         System.out.println(BastShoe("4"));
-        System.out.println(Level1.undoStack);
+        //System.out.println(Level1.undoStack);
         System.out.println(BastShoe("5"));
         System.out.println(BastShoe("4"));
-        System.out.println("-------------------------------Отбивка----------------------");
+
         System.out.println(BastShoe("5"));
         System.out.println(BastShoe("5"));
         System.out.println(BastShoe("5"));
         System.out.println(BastShoe("5"));
-        System.out.println(Level1.undoStack);
+        //System.out.println(Level1.undoStack);
+        //System.out.println("-------------------------------Ошибка----------------------");
         System.out.println(BastShoe("4"));
         System.out.println(BastShoe("4"));
-        System.out.println("-------------------------------Отбивка----------------------");
+        //System.out.println("-------------------------------Отбивка----------------------");
         System.out.println(BastShoe("2 2"));
         System.out.println(BastShoe("4"));
         System.out.println(BastShoe("5"));
