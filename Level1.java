@@ -13,7 +13,7 @@ public class Level1 {
     }
 
 
-    public String executeCommand(String command) {
+    public String BastShoe(String command) {
 
         if (command.charAt(0) == '1') {
             String addParameter = command.substring(1).trim();
