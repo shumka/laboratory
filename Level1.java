@@ -85,6 +85,7 @@ public class Level1 {
             }
         }
     }
+
     public static String getCharacter(String index) {
         lastCommand = 3;
         int idx = Integer.parseInt(index);
@@ -122,5 +123,39 @@ public class Level1 {
             }
         }
     }
+    //Неверная работа Undo после Добавить() + Выдать()
+    //public static void main(String[] args) {
+    //    System.out.println(BastShoe("1 Привет"));
+    //    System.out.println(BastShoe("1  , Мир!"));
+    //    System.out.println(BastShoe("1 ++ "));
+    //    System.out.println(BastShoe("2 2"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("1 *"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("3 6"));
+    //    System.out.println(BastShoe("2 100"));
+    //    System.out.println(BastShoe("1 Привет"));
+    //    System.out.println(BastShoe("1 , Мир!"));
+    //    System.out.println(BastShoe("1 ++"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("5"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("5"));
+    //    System.out.println(BastShoe("5"));
+    //    System.out.println(BastShoe("5"));
+    //    System.out.println(BastShoe("5"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("2 2"));
+    //    System.out.println(BastShoe("4"));
+    //    System.out.println(BastShoe("5"));
+    //    System.out.println(BastShoe("5"));
+    //    System.out.println(BastShoe("5"));
+    //}
+
 
 }
