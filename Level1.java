@@ -1,21 +1,18 @@
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Level1 {
     public static StringBuilder text;
-    public static ArrayList<String> undoStack;
-    public static ArrayList<String> redoStack;
+    public static ArrayList<String> textBuffer;
     public static int lastCommand;
-    public static int currentIndexUndo;
-    public static int currentIndexRedo;
+    public static int currentIndex;
+    private static boolean CanRedo;
+    private static boolean CanUndo;
 
     static{
         text = new StringBuilder();
-        undoStack = new ArrayList<>();
-        redoStack = new ArrayList<>();
+        textBuffer = new ArrayList<>();
         lastCommand = 0;
-        currentIndexUndo = -1;
-        currentIndexRedo = -1;
+        currentIndex = -1;
     }
     public static String BastShoe(String command) {
 
@@ -35,11 +32,19 @@ public class Level1 {
         }
 
         if (command.charAt(0) == '4') {
-            undo();
+            if(textBuffer.size() != 0){
+                undo();
+            } else {
+                return "";
+            }
         }
 
         if (command.charAt(0) == '5') {
-            redo();
+            if(textBuffer.size() != 0){
+                redo();
+            } else {
+                return "";
+            }
         }
 
         return text.toString();
@@ -47,22 +52,27 @@ public class Level1 {
 
     private static void add(String string, Boolean cleanChain) {
         lastCommand = 1;
-
-        if(cleanChain){
-            String temp = undoStack.get(currentIndexUndo);
-            undoStack.clear();
-            currentIndexUndo = 0;
-            redoStack.clear();
-            currentIndexRedo = 0;
-            undoStack.add(temp);
+        if(cleanChain) {
             text.append(string);
+            textBuffer.add(String.valueOf(text));
+
+            String temp00 = textBuffer.get(currentIndex);
+            String temp01 = textBuffer.get(textBuffer.size()-1);
+
+            textBuffer.clear();
+            currentIndex = 1;
+
+            textBuffer.add(temp00);
+            textBuffer.add(temp01);
         }
 
-        if(!cleanChain){
-            currentIndexUndo++;
+        if(!cleanChain) {
+            currentIndex++;
             text.append(string);
-            undoStack.add(String.valueOf(text));
+            textBuffer.add(String.valueOf(text));
         }
+
+
 
     }
 
@@ -73,39 +83,43 @@ public class Level1 {
         if(cleanChain) {
 
             if (numToRemove >= text.length()) {
-                String temp = undoStack.get(currentIndexUndo);
-                undoStack.clear();
-                currentIndexUndo = 0;
-                redoStack.clear();
-                currentIndexRedo = -1;
-                undoStack.add(temp);
 
-                currentIndexUndo++;
                 text.setLength(0);
-                undoStack.add(text.toString());
-            } else {
-                String temp = undoStack.get(currentIndexUndo);
-                undoStack.clear();
-                currentIndexUndo = 0;
-                redoStack.clear();
-                currentIndexRedo = -1;
-                undoStack.add(temp);
+                textBuffer.add(String.valueOf(text));
 
-                currentIndexUndo++;
+                String temp00 = textBuffer.get(currentIndex);
+                String temp01 = textBuffer.get(textBuffer.size()-1);
+
+                textBuffer.clear();
+                currentIndex = 1;
+
+                textBuffer.add(temp00);
+                textBuffer.add(temp01);
+
+              } else {
                 text.setLength(text.length() - numToRemove);
-                undoStack.add(text.toString());
+                textBuffer.add(String.valueOf(text));
+
+                String temp00 = textBuffer.get(currentIndex);
+                String temp01 = textBuffer.get(textBuffer.size()-1);
+
+
+                textBuffer.clear();
+                currentIndex = 1;
+
+                textBuffer.add(temp00);
+                textBuffer.add(temp01);
             }
         }
 
         if(!cleanChain) {
             if (numToRemove >= text.length()) {
-                currentIndexUndo++;
                 text.setLength(0);
-                undoStack.add(text.toString());
-            }else{
-                currentIndexUndo++;
+                currentIndex++;
+            } else {
                 text.setLength(text.length() - numToRemove);
-                undoStack.add(text.toString());
+                textBuffer.add(String.valueOf(text));
+                currentIndex++;
             }
         }
 
@@ -115,8 +129,6 @@ public class Level1 {
         lastCommand = 3;
         int idx = Integer.parseInt(index);
         if (idx < text.length()) {
-            currentIndexUndo++;
-            undoStack.add(String.valueOf(text.charAt(idx)));
             return String.valueOf(text.charAt(idx));
         }
         return "";
@@ -124,101 +136,25 @@ public class Level1 {
 
     public static void undo() {
         lastCommand = 4;
-        if (undoStack.size() == 1){
-            text = new StringBuilder(undoStack.get(currentIndexUndo));
-            currentIndexRedo++;
-            redoStack.add(text.toString());
-        } else {
-            currentIndexUndo--;
-            currentIndexRedo++;
-            text = new StringBuilder(undoStack.get(currentIndexUndo));
-            redoStack.add(text.toString());
-            undoStack.remove(currentIndexUndo);
+
+        if(currentIndex == 0) {
+            text = new StringBuilder(textBuffer.get(currentIndex));
+        }else{
+            currentIndex--;
+            text = new StringBuilder(textBuffer.get(currentIndex));
         }
     }
 
     public static void redo() {
         lastCommand = 5;
 
-        if (redoStack.size() == 1){
-            text = new StringBuilder(redoStack.get(currentIndexRedo));
-            currentIndexUndo++;
-            undoStack.add(text.toString());
-        } else {
-            currentIndexUndo++;
-            currentIndexRedo--;
-            text = new StringBuilder(redoStack.get(currentIndexRedo));
-            undoStack.add(text.toString());
-            redoStack.remove(currentIndexRedo);
+        if(currentIndex == textBuffer.size()-1) {
+            text = new StringBuilder(textBuffer.get(currentIndex));
+        }else{
+            currentIndex++;
+            text = new StringBuilder(textBuffer.get(currentIndex));
         }
-    }
-
-/*
-    public static void main(String[] args) {
-
-        System.out.println(BastShoe("1 Привет"));
-
-        System.out.println(BastShoe("3 4"));
-
-        System.out.println(BastShoe("4"));
-
-        }
-*/
-
-    public static void main(String[] args) {
-        System.out.println(BastShoe("1 Привет"));
-        System.out.println(BastShoe("1  , Мир!"));
-        System.out.println(BastShoe("1 ++ "));
-        //System.out.println(undoStack);
-        //System.out.println("Отрез 2 2");
-        System.out.println(BastShoe("2 2"));
-
-       // System.out.println(undoStack);
-        System.out.println(BastShoe("4"));
-       // System.out.println(undoStack);
-        System.out.println(BastShoe("4"));
-       // System.out.println(undoStack);
-        //System.out.println("Добавление звезды");
-        System.out.println(BastShoe("1 *"));
-        //System.out.println(undoStack);
-        System.out.println(BastShoe("4"));
-        System.out.println(BastShoe("4"));
-        System.out.println(BastShoe("4"));
-
-        System.out.println(BastShoe("3 6"));
-        System.out.println(BastShoe("2 100"));
-       System.out.println(BastShoe("1 Привет"));
-       System.out.println(BastShoe("1 , Мир!"));
-       System.out.println(BastShoe("1 ++"));
-
-        //System.out.println(undoStack);
-        System.out.println(BastShoe("4"));
-        System.out.println(BastShoe("4"));
-        System.out.println(undoStack);
-        System.out.println(redoStack);
-
-        System.out.println(BastShoe("5"));
-        System.out.println(BastShoe("4"));
-        System.out.println(BastShoe("5"));
-        System.out.println(BastShoe("5"));
-        System.out.println(undoStack);
-        System.out.println(redoStack);
-        System.out.println(BastShoe("5"));
-        System.out.println(BastShoe("5"));
-        System.out.println(BastShoe("4"));
-        System.out.println(BastShoe("4"));
-        System.out.println(BastShoe("2 2"));
-
-        System.out.println(BastShoe("4"));
-        System.out.println(BastShoe("5"));
-        System.out.println(BastShoe("5"));
-        System.out.println(BastShoe("5"));
-
-
-
 
     }
-
 
 }
-
