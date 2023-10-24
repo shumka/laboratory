@@ -1,10 +1,10 @@
 public class Level1 {
-    public static void matrixTurn(String[] matrix, int M, int N, int T) {
+    public static void MatrixTurn(String[] Matrix, int M, int N, int T) {
 
         int[][] intMatrix = new int[M][N];
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) {
-                intMatrix[i][j] = Character.getNumericValue(matrix[i].charAt(j));
+                intMatrix[i][j] = Character.getNumericValue(Matrix[i].charAt(j));
             }
         }
 
@@ -59,9 +59,8 @@ public class Level1 {
             for (int j = 0; j < N; j++){
                 temp.append(intMatrix[i][j]);
             }
-            matrix[i] = temp.toString();
+            Matrix[i] = temp.toString();
         }
 
     }
 }
-
