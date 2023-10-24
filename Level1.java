@@ -1,92 +1,66 @@
 public class Level1 {
-    public static String [] TreeOfLife(int H, int W, int N, String [] tree)  {
-        Integer[][] grid = new Integer[H][W];
-        boolean isEvenYear = true;
+    public static void matrixTurn(String[] matrix, int M, int N, int T) {
 
-        // Первичное состояние дерева
-        for (int i = 0; i < H; i++) {
-            for (int j = 0; j < W; j++) {
-                if (tree[i].charAt(j) == '+') {
-                    grid[i][j] = 1;
-                }
-                if (tree[i].charAt(j) == '.') {
-                    grid[i][j] = 0;
-                }
+        int[][] intMatrix = new int[M][N];
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+                intMatrix[i][j] = Character.getNumericValue(matrix[i].charAt(j));
             }
         }
 
-        for (int year = 0; year < N; year++) {
+        for(int i = 0; i < T; i++){
 
-            if (isEvenYear) {
-                // Четный год, просто инкремент
-                for (int i = 0; i < H; i++) {
-                    for (int j = 0; j < W; j++) {
-                        grid[i][j]++;
+            int rw = 0, cl = 0;
+            int n = N, m = M;
+            int previous, current;
+
+            while (rw < m && cl < n) {
+
+                if (rw + 1 == m || cl + 1 == n)
+                    break;
+
+                previous = intMatrix[rw + 1][cl];
+
+                for (int x = cl; x < n; x++) {
+                    current = intMatrix[rw][x];
+                    intMatrix[rw][x] = previous;
+                    previous = current;
+                }
+                rw++;
+
+                for (int x = rw; x < m; x++) {
+                    current = intMatrix[x][n - 1];
+                    intMatrix[x][n - 1] = previous;
+                    previous = current;
+                }
+                n--;
+
+                if (rw < m) {
+                    for (int x = n - 1; x >= cl; x--) {
+                        current = intMatrix[m - 1][x];
+                        intMatrix[m - 1][x] = previous;
+                        previous = current;
                     }
                 }
+                m--;
+
+                if (cl < n) {
+                    for (int x = m - 1; x >= rw; x--) {
+                        current = intMatrix[x][cl];
+                        intMatrix[x][cl] = previous;
+                        previous = current;
+                    }
+                }
+                cl++;
             }
-
-            if (!isEvenYear){
-                // Нечетный год
-                boolean[][] tempGrid = new boolean[H][W];
-
-                for (int i = 0; i < H; i++) {
-                    for (int j = 0; j < W; j++) {
-                        grid[i][j]++;
-                    }
-                }
-
-                for (int i = 0; i < H; i++) {
-                    for (int j = 0; j < W; j++) {
-                        if (grid[i][j] >= 3) {
-                            tempGrid[i][j] = true;
-                            // Ячейка выше
-                            if (i > 0) {
-                                tempGrid[i-1][j] = true;
-                            }
-                            // Ячейка снизу
-                            if (i < H-1) {
-                                tempGrid[i+1][j] = true;
-                            }
-                            // Ячейка слева
-                            if (j > 0) {
-                                tempGrid[i][j-1] = true;
-                            }
-                            // Ячейа справа
-                            if (j < W-1) {
-                                tempGrid[i][j+1] = true;
-                            }
-                        }
-                    }
-                }
-
-                for (int i = 0; i < H; i++) {
-                    for (int j = 0; j < W; j++) {
-                        if (tempGrid[i][j]){
-                            grid[i][j] = 0;
-                        }
-                    }
-                }
-            }
-
-            // Меняем чет на нечет
-            isEvenYear = !isEvenYear;
-
         }
-        String[] result = new String[H];
-        for (int i = 0; i < H; i++) {
-            StringBuilder sb = new StringBuilder();
-            for (int j = 0; j < W; j++) {
-                if (grid[i][j] > 0) {
-                    sb.append('+');
-                } else {
-                    sb.append('.');
-                }
+        for(int i = 0; i < M; i++){
+            StringBuilder temp = new StringBuilder();
+            for (int j = 0; j < N; j++){
+                temp.append(intMatrix[i][j]);
             }
-            result[i] = sb.toString();
+            matrix[i] = temp.toString();
         }
-
-        return result;
 
     }
 }
