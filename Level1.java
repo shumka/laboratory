@@ -1,31 +1,46 @@
-import static java.lang.Character.getNumericValue;
-
 public class Level1 {
-    public static boolean white_walkers(String village) {
-        int walkerCount = 0;
-        boolean flag = false;
+    public static boolean Football(int[] F, int N) {
 
-        for (int i = 0; i < village.length(); i++){
-            if(Character.isDigit(village.charAt(i)) && i != village.length() ){
-                for(int j = i+1; j < village.length(); j++){
-                    if(Character.isDigit(village.charAt(j))  &&
-                            ( getNumericValue(village.charAt(i)) + getNumericValue(village.charAt(j))  == 10)){
-                        for(int x=i,y=j; x < y; x++ ){
-                            if(village.charAt(x) == '=') {
-                                walkerCount += 1;
-                            }
-                        }
-                        if(walkerCount >= 3){
-                            flag = true;
-                        } else {
-                            flag = false;
-                        }
-                        walkerCount = 0;
-                    }
+        for (int i = 0; i < N; i++) {
+            for (int j = i + 1; j < N; j++) {
+                swapElements(F, i, j);
+                if (isSorted(F, N)) {
+                    return true;
                 }
+                swapElements(F, i, j);
             }
         }
 
-        return flag;
+        for (int i = 0; i < N; i++) {
+            for (int j = i + 1; j < N; j++) {
+                reverseSubarray(F, i, j);
+                if (isSorted(F, N)) {
+                    return true;
+                }
+                reverseSubarray(F, i, j);
+            }
+        }
+        return false;
+    }
+    public static boolean isSorted(int[] F, int N) {
+        for (int i = 1; i < N; i++) {
+            if (F[i] < F[i - 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static void swapElements(int[] F, int i, int j) {
+        int temp = F[i];
+        F[i] = F[j];
+        F[j] = temp;
+    }
+
+    public static void reverseSubarray(int[] F, int i, int j) {
+        while (i < j) {
+            swapElements(F, i, j);
+            i++;
+            j--;
+        }
     }
 }
