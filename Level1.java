@@ -1,46 +1,21 @@
+import java.util.Arrays;
+
 public class Level1 {
-    public static boolean Football(int[] F, int N) {
+    public static String Keymaker(int k) {
+        char[] doors = new char[k];
+        Arrays.fill(doors, '1');
 
-        for (int i = 0; i < N; i++) {
-            for (int j = i + 1; j < N; j++) {
-                swapElements(F, i, j);
-                if (isSorted(F, N)) {
-                    return true;
+        for (int n = 2; n <= k; n++) {
+            for (int i = n-1; i < k; i += n) {
+                if (doors[i] == '1') {
+                    doors[i] = '0';  // Close door
+                } else {
+                    doors[i] = '1'; // Open door
                 }
-                swapElements(F, i, j);
             }
         }
+        return new String(doors);
 
-        for (int i = 0; i < N; i++) {
-            for (int j = i + 1; j < N; j++) {
-                reverseSubarray(F, i, j);
-                if (isSorted(F, N)) {
-                    return true;
-                }
-                reverseSubarray(F, i, j);
-            }
-        }
-        return false;
-    }
-    public static boolean isSorted(int[] F, int N) {
-        for (int i = 1; i < N; i++) {
-            if (F[i] < F[i - 1]) {
-                return false;
-            }
-        }
-        return true;
-    }
-    public static void swapElements(int[] F, int i, int j) {
-        int temp = F[i];
-        F[i] = F[j];
-        F[j] = temp;
-    }
-
-    public static void reverseSubarray(int[] F, int i, int j) {
-        while (i < j) {
-            swapElements(F, i, j);
-            i++;
-            j--;
-        }
     }
 }
+
