@@ -5,17 +5,6 @@ public class Recursion {
 
     public static void main(String[] args) {
 
-        System.out.println(firstRecursion(2,4));
-        System.out.println(secondRecursion(253));
-
-        List<String> list = new ArrayList<>();
-        list.add("Духовной жаждою томим,");
-        list.add("В пустыне мрачной я влачился,");
-        list.add("И шестикрылый серафим");
-        list.add("На перепутье мне явился.");
-
-        System.out.println(thirdRecursion((ArrayList<String>) list));
-        System.out.println(fourthRecursion("DOVOD"));
 
         }
     public static int firstRecursion(int N, int M) {
