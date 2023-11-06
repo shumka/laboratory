@@ -4,9 +4,8 @@ import java.util.List;
 public class Recursion {
 
     public static void main(String[] args) {
-
-
         }
+    
     public static int firstRecursion(int N, int M) {
         if(M == 1 || M == 0)
             return N;
