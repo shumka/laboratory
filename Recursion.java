@@ -25,12 +25,12 @@ public class Recursion {
         return 1 + thirdRecursion(list);
     }
 
-    public static boolean fourthRecursion(String palindrome) {
-        if(palindrome.length() <= 1)
+    public static boolean fourthRecursion(String palindrome, int start, int end) {
+        if(start >= end)
             return true;
-        if(palindrome.charAt(0) != palindrome.charAt(palindrome.length()-1))
+        if(palindrome.charAt(start) != palindrome.charAt(end))
             return false;
-        return fourthRecursion(palindrome.substring(1,palindrome.length()-1));
+        return fourthRecursion(palindrome, start + 1, end - 1);
     }
 
 }
