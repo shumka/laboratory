@@ -49,5 +49,16 @@ public class Recursion {
         }
         fiveRecursion(list, index + 1);
     }
+    
+    public static void sixRecursion(List<Integer> list){
+        sixRecursion(list, 0);
+    }
+    private static void sixRecursion(List<Integer> list, int index) {
+        if (index >= list.size()) {
+            return;
+        }
+        System.out.println(list.get(index));
+        sixRecursion(list, index + 2);
+    }
 
 }
