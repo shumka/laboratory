@@ -37,4 +37,17 @@ public class Recursion {
         return fourthRecursion(palindrome, start + 1, end - 1);
     }
 
+    public static void fiveRecursion(List<Integer> list){
+        fiveRecursion(list, 0);
+    }
+    private static void fiveRecursion(List<Integer> list, int index) {
+        if (index == list.size()) {
+            return;
+        }
+        if (list.get(index) % 2 == 0) {
+            System.out.println(list.get(index));
+        }
+        fiveRecursion(list, index + 1);
+    }
+
 }
