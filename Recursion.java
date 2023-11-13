@@ -60,5 +60,64 @@ public class Recursion {
         System.out.println(list.get(index));
         sixRecursion(list, index + 2);
     }
+
+    public static int sevenRecursion(int[] arr) {
+        return sevenRecursion(arr, arr.length, Integer.MIN_VALUE, Integer.MIN_VALUE);
+    }
+
+    private static int sevenRecursion(int[] arr, int n, int max, int secondMax) {
+        if (n == 0) {
+            return secondMax;
+        }
+
+        if (arr[n-1] > max) {
+            secondMax = max;
+            max = arr[n-1];
+        } else if (arr[n-1] > secondMax && arr[n-1] < max) {
+            secondMax = arr[n-1];
+        }
+
+        return sevenRecursion(arr, n-1, max, secondMax);
+    }
+
+    public static List<String> eightRecursion(String directoryPath) {
+        List<String> fileList = new ArrayList<>();
+        File directory = new File(directoryPath);
+        File[] files = directory.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    fileList.add(file.getAbsolutePath());
+                } else if (file.isDirectory()) {
+                    fileList.addAll(eightRecursion(file.getAbsolutePath()));
+                }
+            }
+        }
+        return fileList;
+    }
+
+
+    public static List<String> hardRecursion(int n) {
+        List<String> result = new ArrayList<>();
+        generateHard(result, "", n, n);
+        return result;
+    }
+
+    public static void generateHard(List<String> result, String s, int left, int right) {
+        if (left == 0 && right == 0) {
+            result.add(s);
+            return;
+        }
+
+        if (left > 0) {
+            generateHard(result, s + "(", left - 1, right);
+        }
+
+        if (right > left) {
+            generateHard(result, s + ")", left, right - 1);
+        }
+    }
+    
     
 }
